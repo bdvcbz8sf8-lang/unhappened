@@ -19,10 +19,15 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { createTrace, initStorage, listTraces, type Trace } from "./src/data/storage";
+import {
+  getNextPhaseOnArm,
+  getNextPhaseOnHoldCancel,
+  getNextPhaseOnHoldStart,
+  getReleaseHint,
+  type RitualPhase,
+} from "./src/features/ritual/state";
 import { tokens } from "./src/theme/tokens";
 import { formatTraceDateTime, formatTraceTime } from "./src/utils/format";
-
-type RitualPhase = "idle" | "armed" | "holding" | "released";
 
 const HOLD_SIZE = 152;
 
@@ -76,11 +81,7 @@ export default function App() {
     }
   }, [hasInput, phase]);
 
-  const releaseHint = useMemo(() => {
-    if (phase === "holding") return "The words will fade as you let them go...";
-    if (phase === "released") return "It stays, quietly.";
-    return "UNSAID, UNDONE, UNSENT...";
-  }, [phase]);
+  const releaseHint = useMemo(() => getReleaseHint(phase), [phase]);
 
   const finishRelease = async () => {
     if (isReleasingRef.current) return;
@@ -105,13 +106,13 @@ export default function App() {
   };
 
   const armRelease = () => {
-    if (!hasInput || phase === "released") return;
-    setPhase("armed");
+    setPhase((current) => getNextPhaseOnArm(current, hasInput));
   };
 
   const onHoldStart = () => {
-    if (phase !== "armed") return;
-    setPhase("holding");
+    const next = getNextPhaseOnHoldStart(phase);
+    if (next !== "holding") return;
+    setPhase(next);
     holdProgress.value = 0;
     holdProgress.value = withTiming(1, { duration: tokens.motion.holdMs }, (finished) => {
       if (finished) runOnJS(finishRelease)();
@@ -119,11 +120,11 @@ export default function App() {
   };
 
   const onHoldEnd = () => {
-    if (isReleasingRef.current) return;
-    if (phase !== "holding") return;
+    const next = getNextPhaseOnHoldCancel(phase, isReleasingRef.current);
+    if (next === phase) return;
     cancelAnimation(holdProgress);
     holdProgress.value = withTiming(0, { duration: 160 });
-    setPhase("armed");
+    setPhase(next);
   };
 
   const openTraces = async () => {
