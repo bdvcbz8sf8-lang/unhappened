@@ -115,12 +115,17 @@ export default function App() {
 
   const openTraces = async () => {
     await loadTraces();
+    setSelectedTrace(null);
     setIsTracesOpen(true);
   };
 
   const closeTraces = () => {
     setIsTracesOpen(false);
-    setSelectedTrace(null);
+  };
+
+  const openTraceDetail = (trace: Trace) => {
+    setIsTracesOpen(false);
+    setSelectedTrace(trace);
   };
 
   const returnToNow = (trace: Trace) => {
@@ -162,7 +167,7 @@ export default function App() {
         visible={isTracesOpen}
         traces={traces}
         onClose={closeTraces}
-        onSelectTrace={setSelectedTrace}
+        onSelectTrace={openTraceDetail}
       />
 
       <TraceDetailModal
