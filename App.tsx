@@ -20,9 +20,11 @@ import {
 } from "./src/features/ritual/state";
 import { TraceDetailModal } from "./src/features/traces/components/TraceDetailModal";
 import { TracesSheet } from "./src/features/traces/components/TracesSheet";
+import { useAppFonts } from "./src/theme/fonts";
 import { tokens } from "./src/theme/tokens";
 
 export default function App() {
+  const fontsLoaded = useAppFonts();
   const [phase, setPhase] = useState<RitualPhase>("idle");
   const [inputText, setInputText] = useState("");
   const [traces, setTraces] = useState<Trace[]>([]);
@@ -135,6 +137,8 @@ export default function App() {
   const handleContinueFromIntro = () => {
     setShowIntro(false);
   };
+
+  if (!fontsLoaded) return null;
 
   return (
     <View style={{ flex: 1 }}>

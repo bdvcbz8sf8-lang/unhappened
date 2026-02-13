@@ -8,10 +8,16 @@ type IntroScreenProps = {
 export function IntroScreen({ onContinue }: IntroScreenProps) {
   return (
     <View style={styles.root}>
+      <View style={styles.topLeftCorner} />
+      <View style={styles.bottomRightCorner} />
+      <View style={styles.ambientCircle} />
+
       <View style={styles.center}>
         <Text style={styles.brand}>Unhappened</Text>
         <View style={styles.separator} />
-        <Text style={styles.headline}>Not everything{"\n"}has to be done.</Text>
+        <Text style={styles.headline}>
+          Not everything{"\n"}has to be <Text style={styles.doneAccent}>done.</Text>
+        </Text>
         <View style={styles.separator} />
       </View>
 
@@ -28,59 +34,97 @@ export function IntroScreen({ onContinue }: IntroScreenProps) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: tokens.color.bg,
+    backgroundColor: "#FAF7F2",
     paddingHorizontal: 28,
+    paddingTop: 24,
     paddingBottom: 48,
     justifyContent: "space-between",
     alignItems: "center",
+    overflow: "hidden",
+  },
+  ambientCircle: {
+    position: "absolute",
+    width: 500,
+    height: 500,
+    borderRadius: tokens.radius.pill,
+    borderWidth: 1,
+    borderColor: "rgba(30, 27, 22, 0.02)",
+    top: 120,
+    right: -170,
+  },
+  topLeftCorner: {
+    position: "absolute",
+    left: 42,
+    top: 94,
+    width: 86,
+    height: 86,
+    borderLeftWidth: 1,
+    borderTopWidth: 1,
+    borderColor: "rgba(30, 27, 22, 0.08)",
+  },
+  bottomRightCorner: {
+    position: "absolute",
+    right: 38,
+    bottom: 90,
+    width: 86,
+    height: 86,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "rgba(30, 27, 22, 0.08)",
   },
   center: {
-    marginTop: "34%",
+    marginTop: "38%",
     alignItems: "center",
-    gap: 26,
+    gap: 28,
   },
   brand: {
-    color: tokens.color.accent,
-    fontSize: 44,
-    fontStyle: "italic",
-    fontWeight: "300",
+    color: "#8AA6A6",
+    fontFamily: "LaBelleAurore_400Regular",
+    fontSize: 58,
+    lineHeight: 62,
   },
   separator: {
-    width: 82,
+    width: 66,
     height: 1,
-    backgroundColor: tokens.color.border,
+    backgroundColor: "rgba(138, 166, 166, 0.25)",
   },
   headline: {
-    color: tokens.color.text,
-    fontSize: 27,
-    lineHeight: 44,
+    color: "#1E1B16",
+    fontFamily: "Spectral_200ExtraLight_Italic",
+    fontSize: 66,
+    lineHeight: 92,
     textAlign: "center",
-    fontStyle: "italic",
-    fontWeight: "300",
+    opacity: 0.9,
     maxWidth: 300,
+  },
+  doneAccent: {
+    color: "#8AA6A6",
   },
   ctaWrap: {
     alignItems: "center",
-    gap: 12,
+    gap: 14,
+    marginBottom: 88,
   },
   ctaLabel: {
-    color: tokens.color.textGhost,
+    color: "#1E1B16",
+    fontFamily: "Inter_300Light",
     fontSize: 12,
-    letterSpacing: 5,
+    opacity: 0.5,
+    letterSpacing: 7,
     textTransform: "uppercase",
   },
   ctaCircle: {
-    width: 40,
-    height: 40,
+    width: 52,
+    height: 52,
     borderRadius: tokens.radius.pill,
     borderWidth: 1,
-    borderColor: tokens.color.border,
+    borderColor: "rgba(30, 27, 22, 0.15)",
     alignItems: "center",
     justifyContent: "center",
   },
   ctaArrow: {
-    color: tokens.color.textGhost,
-    fontSize: 20,
+    color: "rgba(30, 27, 22, 0.65)",
+    fontSize: 22,
     marginTop: -3,
   },
 });
