@@ -8,17 +8,17 @@ type IntroScreenProps = {
 export function IntroScreen({ onContinue }: IntroScreenProps) {
   return (
     <View style={styles.root}>
-      <View style={styles.topLeftCorner} />
-      <View style={styles.bottomRightCorner} />
       <View style={styles.ambientCircle} />
 
-      <View style={styles.center}>
-        <Text style={styles.brand}>Unhappened</Text>
-        <View style={styles.separator} />
-        <Text style={styles.headline}>
-          Not everything{"\n"}has to be <Text style={styles.doneAccent}>done.</Text>
-        </Text>
-        <View style={styles.separator} />
+      <View style={styles.centerWrap}>
+        <View style={styles.center}>
+          <Text style={styles.brand}>Unhappened</Text>
+          <View style={styles.separator} />
+          <Text style={styles.headline}>
+            Not everything{"\n"}has to be <Text style={styles.doneAccent}>done.</Text>
+          </Text>
+          <View style={styles.separator} />
+        </View>
       </View>
 
       <Pressable onPress={onContinue} style={styles.ctaWrap}>
@@ -42,6 +42,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
   },
+  centerWrap: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   ambientCircle: {
     position: "absolute",
     width: 500,
@@ -52,28 +58,7 @@ const styles = StyleSheet.create({
     top: 120,
     right: -170,
   },
-  topLeftCorner: {
-    position: "absolute",
-    left: 42,
-    top: 94,
-    width: 86,
-    height: 86,
-    borderLeftWidth: 1,
-    borderTopWidth: 1,
-    borderColor: "rgba(30, 27, 22, 0.08)",
-  },
-  bottomRightCorner: {
-    position: "absolute",
-    right: 38,
-    bottom: 90,
-    width: 86,
-    height: 86,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: "rgba(30, 27, 22, 0.08)",
-  },
   center: {
-    marginTop: "38%",
     alignItems: "center",
     gap: 26,
   },
