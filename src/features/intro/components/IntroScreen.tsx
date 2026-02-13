@@ -10,16 +10,19 @@ export function IntroScreen({ onContinue }: IntroScreenProps) {
     <View style={styles.root}>
       <View style={styles.ambientCircle} />
 
-      <View style={styles.centerWrap}>
-        <View style={styles.center}>
-          <Text style={styles.brand}>Unhappened</Text>
-          <View style={styles.separator} />
-          <Text style={styles.headline}>
-            Not everything{"\n"}has to be <Text style={styles.doneAccent}>done.</Text>
-          </Text>
-          <View style={styles.separator} />
-        </View>
-      </View>
+   <View style={styles.logoWrap}>
+    <Text style={styles.brand}>Unhappened</Text>
+  </View>
+
+  <View style={styles.centerWrap}>
+    <View style={styles.center}>
+      <View style={styles.separator} />
+      <Text style={styles.headline}>
+        Not everything{"\n"}has to be <Text style={styles.doneAccent}>done.</Text>
+      </Text>
+      <View style={styles.separator} />
+    </View>
+  </View>
 
       <Pressable onPress={onContinue} style={styles.ctaWrap}>
         <Text style={styles.ctaLabel}>LET GO</Text>
@@ -42,12 +45,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
   },
+  logoWrap: {
+  position: "absolute",
+  top: 180,      
+  left: 0,
+  right: 0,
+  alignItems: "center",
+  zIndex: 2,
+},
   centerWrap: {
     flex: 1,
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 170
   },
+  
   ambientCircle: {
     position: "absolute",
     width: 500,
@@ -65,8 +78,8 @@ const styles = StyleSheet.create({
   brand: {
     color: "#8AA6A6",
     fontFamily: "LaBelleAurore_400Regular",
-    fontSize: 24,
-    lineHeight: 28,
+    fontSize: 28,
+    lineHeight: 45,
     letterSpacing: -0.5,
   },
   separator: {
