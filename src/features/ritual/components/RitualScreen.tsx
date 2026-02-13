@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 28,
     alignItems: "center",
-    gap: 18,
+    gap: 16,
   },
   time: {
     alignSelf: "flex-start",
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   editorCard: {
     width: "100%",
     flex: 1,
-    maxHeight: 430,
+    maxHeight: 450,
     borderRadius: tokens.radius.card,
     backgroundColor: tokens.color.surface,
     borderWidth: 1,
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     color: tokens.color.text,
-    fontSize: tokens.typography.body,
-    lineHeight: 42,
+    fontSize: 21,
+    lineHeight: 46,
     fontStyle: "italic",
   },
   releasedWrap: {
@@ -156,13 +156,13 @@ const styles = StyleSheet.create({
   },
   releasedTitle: {
     color: tokens.color.accent,
-    fontSize: tokens.typography.hero,
+    fontSize: 56,
     fontWeight: "300",
     letterSpacing: 0.6,
   },
   releasedSubtitle: {
     color: tokens.color.textFaint,
-    fontSize: tokens.typography.body,
+    fontSize: 22,
     fontStyle: "italic",
   },
   releasedBreathing: {
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   releaseButtonText: {
     color: tokens.color.text,
     textAlign: "center",
-    fontSize: 29,
+    fontSize: 22,
     fontStyle: "italic",
     fontWeight: "300",
   },
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   holdSub: {
     color: "#E9F3F2",
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "300",
     fontStyle: "italic",
   },

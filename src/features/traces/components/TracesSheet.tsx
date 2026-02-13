@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
   tracePreview: {
     flex: 1,
     color: tokens.color.textFaint,
-    fontSize: 35,
-    lineHeight: 52,
+    fontSize: 22,
+    lineHeight: 40,
     fontStyle: "italic",
     fontWeight: "300",
   },

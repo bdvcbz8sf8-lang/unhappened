@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   center: {
-    marginTop: "40%",
+    marginTop: "34%",
     alignItems: "center",
-    gap: 24,
+    gap: 26,
   },
   brand: {
     color: tokens.color.accent,
-    fontSize: 40,
+    fontSize: 44,
     fontStyle: "italic",
     fontWeight: "300",
   },
@@ -52,11 +52,12 @@ const styles = StyleSheet.create({
   },
   headline: {
     color: tokens.color.text,
-    fontSize: 58,
-    lineHeight: 82,
+    fontSize: 27,
+    lineHeight: 44,
     textAlign: "center",
     fontStyle: "italic",
     fontWeight: "300",
+    maxWidth: 300,
   },
   ctaWrap: {
     alignItems: "center",
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   ctaLabel: {
     color: tokens.color.textGhost,
     fontSize: 12,
-    letterSpacing: 4,
+    letterSpacing: 5,
     textTransform: "uppercase",
   },
   ctaCircle: {

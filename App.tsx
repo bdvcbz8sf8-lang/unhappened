@@ -10,6 +10,7 @@ import {
 } from "react-native-reanimated";
 import { createTrace, initStorage, listTraces, type Trace } from "./src/data/storage";
 import { IntroScreen } from "./src/features/intro/components/IntroScreen";
+import { isIntroSeen, markIntroSeen } from "./src/features/intro/storage";
 import { RitualScreen } from "./src/features/ritual/components/RitualScreen";
 import {
   getNextPhaseOnArm,
@@ -29,7 +30,7 @@ export default function App() {
   const [isTracesOpen, setIsTracesOpen] = useState(false);
   const [selectedTrace, setSelectedTrace] = useState<Trace | null>(null);
   const [isStorageReady, setIsStorageReady] = useState(false);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState<boolean | null>(null);
 
   const holdProgress = useSharedValue(0);
   const releasedOpacity = useSharedValue(0);
@@ -45,8 +46,10 @@ export default function App() {
 
   useEffect(() => {
     const handleInit = async () => {
+      const introSeen = await isIntroSeen();
       await initStorage();
       await loadTraces();
+      setShowIntro(!introSeen);
       setIsStorageReady(true);
     };
     handleInit().catch((error: unknown) => {
@@ -127,11 +130,18 @@ export default function App() {
     setPhase("idle");
   };
 
+  const handleContinueFromIntro = () => {
+    setShowIntro(false);
+    markIntroSeen().catch(() => {
+      return;
+    });
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar style="dark" />
-      {showIntro ? (
-        <IntroScreen onContinue={() => setShowIntro(false)} />
+      {showIntro === null ? null : showIntro ? (
+        <IntroScreen onContinue={handleContinueFromIntro} />
       ) : (
         <RitualScreen
           phase={phase}

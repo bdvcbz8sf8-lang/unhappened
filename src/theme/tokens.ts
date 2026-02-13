@@ -33,6 +33,6 @@ export const tokens = {
   motion: {
     holdMs: 750,
     releaseFadeMs: 450,
-    releasedStateMs: 1450,
+    releasedStateMs: 3000,
   },
 } as const;
