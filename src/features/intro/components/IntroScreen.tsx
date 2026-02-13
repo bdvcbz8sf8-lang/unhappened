@@ -75,13 +75,14 @@ const styles = StyleSheet.create({
   center: {
     marginTop: "38%",
     alignItems: "center",
-    gap: 28,
+    gap: 26,
   },
   brand: {
     color: "#8AA6A6",
     fontFamily: "LaBelleAurore_400Regular",
-    fontSize: 58,
-    lineHeight: 62,
+    fontSize: 24,
+    lineHeight: 28,
+    letterSpacing: -0.5,
   },
   separator: {
     width: 66,
@@ -90,12 +91,12 @@ const styles = StyleSheet.create({
   },
   headline: {
     color: "#1E1B16",
-    fontFamily: "Spectral_200ExtraLight_Italic",
-    fontSize: 66,
-    lineHeight: 92,
+    fontFamily: "Spectral_300Light_Italic",
+    fontSize: 32,
+    lineHeight: 45,
     textAlign: "center",
     opacity: 0.9,
-    maxWidth: 300,
+    maxWidth: 332,
   },
   doneAccent: {
     color: "#8AA6A6",
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_300Light",
     fontSize: 12,
     opacity: 0.5,
-    letterSpacing: 7,
+    letterSpacing: 2.4,
     textTransform: "uppercase",
   },
   ctaCircle: {
