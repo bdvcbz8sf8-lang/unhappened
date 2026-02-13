@@ -63,7 +63,7 @@ export function RitualScreen({
             <TextInput
               multiline
               placeholder="Something you left behind"
-              placeholderTextColor={tokens.color.textGhost}
+              placeholderTextColor="rgba(30, 27, 22, 0.4)"
               value={inputText}
               onChangeText={onChangeText}
               style={styles.input}
@@ -110,11 +110,11 @@ export function RitualScreen({
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: tokens.color.bg,
+    backgroundColor: "#FAF7F2",
   },
   screen: {
     flex: 1,
-    backgroundColor: tokens.color.bg,
+    backgroundColor: "#FAF7F2",
     paddingHorizontal: 20,
     paddingTop: 12,
     paddingBottom: 28,
@@ -132,12 +132,17 @@ const styles = StyleSheet.create({
     flex: 1,
     maxHeight: 450,
     borderRadius: tokens.radius.card,
-    backgroundColor: tokens.color.surface,
+    backgroundColor: "rgba(255, 255, 255, 0.4)",
     borderWidth: 1,
-    borderColor: tokens.color.border,
+    borderColor: "rgba(255, 255, 255, 0.35)",
     paddingHorizontal: 24,
     paddingVertical: 28,
     justifyContent: "flex-start",
+    shadowColor: "#FFFFFF",
+    shadowOpacity: 0.9,
+    shadowRadius: 26,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 1,
   },
   editorCardReleased: {
     justifyContent: "center",
@@ -145,10 +150,12 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    color: tokens.color.text,
-    fontSize: 21,
-    lineHeight: 46,
+    color: "#1E1B16",
+    fontFamily: "Spectral_300Light_Italic",
+    fontSize: 24,
+    lineHeight: 34,
     fontStyle: "italic",
+    fontWeight: "300",
   },
   releasedWrap: {
     alignItems: "center",
@@ -172,15 +179,17 @@ const styles = StyleSheet.create({
     marginTop: 28,
   },
   hint: {
-    color: tokens.color.textGhost,
+    color: "rgba(30, 27, 22, 0.2)",
+    fontFamily: "Inter_300Light",
     fontSize: 12,
-    letterSpacing: 3,
+    letterSpacing: 1.8,
     textTransform: "uppercase",
   },
   tracesLink: {
-    color: tokens.color.accent,
-    fontSize: tokens.typography.meta,
-    letterSpacing: 2.2,
+    color: "rgba(30, 27, 22, 0.4)",
+    fontFamily: "Inter_300Light",
+    fontSize: 14,
+    letterSpacing: 1.4,
     textTransform: "uppercase",
     marginBottom: 8,
   },
