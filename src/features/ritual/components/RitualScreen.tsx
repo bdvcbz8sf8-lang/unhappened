@@ -57,7 +57,6 @@ export function RitualScreen({
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.screen}>
-        <Text style={styles.time}>{isStorageReady ? "9:41" : "Loading..."}</Text>
 
         <View style={[styles.editorCard, phase === "released" && styles.editorCardReleased]}>
           {phase !== "released" ? (

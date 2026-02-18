@@ -45,20 +45,12 @@ export function TraceDetailModal({ trace, onClose, onReturnToNow }: TraceDetailM
                 showsVerticalScrollIndicator={false}
               >
                 <Text style={styles.detailText}>{trace.text}</Text>
-                <Text style={styles.trailingCopy}>Sometimes it's better to let</Text>
-
-                <Pressable onPress={() => onReturnToNow(trace)} style={styles.returnRow}>
-                  <Text style={styles.returnIcon}>↗</Text>
-                  <Text style={styles.returnToNow}>RETURN TO NOW</Text>
-                </Pressable>
-
-                <View style={styles.closeWrap}>
-                  <Pressable onPress={onClose} style={styles.closeCircle}>
-                    <Text style={styles.closeX}>×</Text>
-                  </Pressable>
-                  <Text style={styles.closeLabel}>CLOSE</Text>
-                </View>
               </ScrollView>
+
+              <Pressable onPress={() => onReturnToNow(trace)} style={styles.returnRow}>
+                <Text style={styles.returnIcon}>↗</Text>
+                <Text style={styles.returnToNow}>RETURN TO NOW</Text>
+              </Pressable>
             </>
           )}
         </View>
@@ -85,6 +77,7 @@ const styles = StyleSheet.create({
     borderColor: tokens.color.border,
     minHeight: "86%",
     maxHeight: "92%",
+    position: "relative",
   },
   sheetHandle: {
     width: 56,
@@ -117,7 +110,7 @@ const styles = StyleSheet.create({
   },
   bodyContent: {
     paddingHorizontal: 26,
-    paddingBottom: 24,
+    paddingBottom: 110,
   },
   detailText: {
     color: tokens.color.text,
@@ -127,19 +120,15 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     marginBottom: 34,
   },
-  trailingCopy: {
-    color: tokens.color.textFaint,
-    fontSize: 18,
-    lineHeight: 30,
-    fontStyle: "italic",
-    marginBottom: 28,
-  },
   returnRow: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 50,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     gap: 10,
-    marginBottom: 26,
   },
   returnIcon: {
     color: tokens.color.accent,
@@ -151,30 +140,5 @@ const styles = StyleSheet.create({
     letterSpacing: 1.6,
     fontWeight: "700",
     fontSize: 17,
-  },
-  closeWrap: {
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 6,
-  },
-  closeCircle: {
-    width: 72,
-    height: 72,
-    borderRadius: tokens.radius.pill,
-    borderWidth: 1,
-    borderColor: tokens.color.border,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  closeX: {
-    color: tokens.color.textGhost,
-    fontSize: 38,
-    fontWeight: "300",
-    marginTop: -2,
-  },
-  closeLabel: {
-    color: tokens.color.textGhost,
-    letterSpacing: 3,
-    fontSize: 12,
   },
 });
