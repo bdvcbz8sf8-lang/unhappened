@@ -45,6 +45,7 @@ export function RitualScreen({
   const hasInput = inputText.trim().length > 0;
   const isReleaseButtonVisible = hasInput && phase !== "released";
   const isHoldVisible = phase === "armed" || phase === "holding";
+  const isTracesVisible = phase !== "released";
 
   const progressStyle = useAnimatedStyle(() => ({
     width: HOLD_SIZE * holdProgress.value,
@@ -63,26 +64,22 @@ export function RitualScreen({
             <TextInput
               multiline
               placeholder="Something you left behind"
-              placeholderTextColor="rgba(30, 27, 22, 0.4)"
+              placeholderTextColor="rgba(138, 166, 166, 0.4)"
               value={inputText}
               onChangeText={onChangeText}
               style={styles.input}
               textAlignVertical="top"
+              
             />
           ) : (
             <Animated.View style={[styles.releasedWrap, releasedStyle]}>
               <Text style={styles.releasedTitle}>Released</Text>
-              <Text style={styles.releasedSubtitle}>and left in gentle air.</Text>
-              <Text style={styles.releasedBreathing}>BREATHING ROOM</Text>
+              <Text style={styles.releasedSubtitle}>and left in gentle air</Text>  
             </Animated.View>
           )}
         </View>
 
         <Text style={styles.hint}>{releaseHint}</Text>
-
-        <Pressable onPress={onOpenTraces}>
-          <Text style={styles.tracesLink}>TRACES</Text>
-        </Pressable>
 
         {isReleaseButtonVisible && !isHoldVisible && (
           <Pressable style={styles.releaseButton} onPress={onArmRelease}>
@@ -95,11 +92,17 @@ export function RitualScreen({
             <View style={styles.holdOuter}>
               <Animated.View style={[styles.holdProgress, progressStyle]} />
               <View style={styles.holdInner}>
-                <Text style={styles.holdLabel}>HOLDING</Text>
+                <Text style={styles.holdLabel}>HOLD</Text>
                 <Text style={styles.holdSub}>to release</Text>
               </View>
             </View>
             <Text style={styles.holdingFooter}>LETTING GO...</Text>
+          </Pressable>
+        )}
+
+        {isTracesVisible && (
+          <Pressable onPress={onOpenTraces}>
+            <Text style={styles.tracesLink}>TRACES</Text>
           </Pressable>
         )}
       </View>
@@ -130,7 +133,7 @@ const styles = StyleSheet.create({
   editorCard: {
     width: "100%",
     flex: 1,
-    maxHeight: 450,
+    maxHeight: 600,
     borderRadius: tokens.radius.card,
     backgroundColor: "rgba(255, 255, 255, 0.4)",
     borderWidth: 1,
@@ -179,18 +182,20 @@ const styles = StyleSheet.create({
     marginTop: 28,
   },
   hint: {
-    color: "rgba(30, 27, 22, 0.2)",
+    color: "rgba(138, 166, 166, 0.6)",
     fontFamily: "Inter_300Light",
     fontSize: 12,
     letterSpacing: 1.8,
     textTransform: "uppercase",
+    marginTop: 20
   },
   tracesLink: {
-    color: "rgba(30, 27, 22, 0.4)",
+    color: "rgba(138, 166, 166, 0.7)",
     fontFamily: "Inter_300Light",
     fontSize: 14,
     letterSpacing: 1.4,
     textTransform: "uppercase",
+    marginTop: 200,
     marginBottom: 8,
   },
   releaseButton: {
@@ -201,6 +206,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderWidth: 1,
     borderColor: tokens.color.border,
+    transform: [{ translateY: 30 }]
   },
   releaseButtonText: {
     color: tokens.color.text,
@@ -213,6 +219,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 14,
+    transform: [{ translateY: 70 }]
   },
   holdOuter: {
     width: HOLD_SIZE,

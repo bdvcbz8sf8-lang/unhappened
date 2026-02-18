@@ -31,7 +31,7 @@ export const tokens = {
     title: 22,
   },
   motion: {
-    holdMs: 750,
+    holdMs: 3000,
     releaseFadeMs: 450,
     releasedStateMs: 3000,
   },
