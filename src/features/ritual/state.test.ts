@@ -26,7 +26,7 @@ describe("ritual state transitions", () => {
 
 describe("ritual hints", () => {
   it("returns copy by phase", () => {
-    expect(getReleaseHint("idle")).toBe("UNSAID, UNDONE, UNSENT...");
+    expect(getReleaseHint("idle")).toBe("UNSAID, UNDONE, UNSENT");
     expect(getReleaseHint("holding")).toBe("The words will fade as you let them go...");
     expect(getReleaseHint("released")).toBe("It stays, quietly.");
   });

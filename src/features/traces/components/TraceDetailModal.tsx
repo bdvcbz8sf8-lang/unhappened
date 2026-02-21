@@ -45,16 +45,20 @@ export function TraceDetailModal({ trace, onClose, onReturnToNow }: TraceDetailM
 
   const panResponder = useRef(
     PanResponder.create({
-      onStartShouldSetPanResponderCapture: () => false,
+      onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: (_, gestureState) =>
         gestureState.dy > 2 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
       onMoveShouldSetPanResponder: (_, gestureState) =>
         gestureState.dy > 2 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
+      onPanResponderGrant: () => {
+        translateY.stopAnimation();
+      },
       onPanResponderMove: (_, gestureState) => {
         translateY.setValue(Math.max(0, gestureState.dy));
       },
       onPanResponderRelease: (_, gestureState) => {
-        if (gestureState.dy > 110 || gestureState.vy > 1.1) {
+        if (gestureState.dy > 70 || gestureState.vy > 0.9) {
           onClose();
         } else {
           Animated.spring(translateY, {
@@ -139,7 +143,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   dragArea: {
-    paddingTop: 2,
+    height: 44,
+    width: "100%",
+    justifyContent: "center",
   },
   headerRow: {
     flexDirection: "row",

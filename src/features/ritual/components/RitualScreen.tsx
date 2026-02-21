@@ -71,6 +71,7 @@ export function RitualScreen({
               onChangeText={onChangeText}
               style={styles.input}
               textAlignVertical="top"
+              textAlign="center"
               
             />
           ) : (

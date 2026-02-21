@@ -31,16 +31,20 @@ export function TracesSheet({ visible, traces, onClose, onSelectTrace }: TracesS
 
   const panResponder = useRef(
     PanResponder.create({
-      onStartShouldSetPanResponderCapture: () => false,
+      onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: (_, gestureState) =>
         gestureState.dy > 2 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
       onMoveShouldSetPanResponder: (_, gestureState) =>
         gestureState.dy > 2 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
+      onPanResponderGrant: () => {
+        translateY.stopAnimation();
+      },
       onPanResponderMove: (_, gestureState) => {
         translateY.setValue(Math.max(0, gestureState.dy));
       },
       onPanResponderRelease: (_, gestureState) => {
-        if (gestureState.dy > 110 || gestureState.vy > 1.1) {
+        if (gestureState.dy > 70 || gestureState.vy > 0.9) {
           onClose();
         } else {
           Animated.spring(translateY, {
@@ -79,7 +83,7 @@ export function TracesSheet({ visible, traces, onClose, onSelectTrace }: TracesS
                 <Text style={styles.traceTime}>{formatTraceTime(item.createdAt)}</Text>
               </Pressable>
             )}
-            ListEmptyComponent={<Text style={styles.empty}>No traces yet.</Text>}
+            ListEmptyComponent={<Text style={styles.empty}>No traces yet</Text>}
           />
         </Animated.View>
       </View>
@@ -117,7 +121,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   dragArea: {
-    paddingTop: 2,
+    height: 44,
+    width: "100%",
+    justifyContent: "center",
   },
   sheetTitle: {
     color: tokens.color.textGhost,

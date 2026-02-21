@@ -19,5 +19,5 @@ export function getNextPhaseOnHoldCancel(current: RitualPhase, isReleasing: bool
 export function getReleaseHint(current: RitualPhase): string {
   if (current === "holding") return "The words will fade as you let them go...";
   if (current === "released") return "It stays, quietly.";
-  return "UNSAID, UNDONE, UNSENT...";
+  return "UNSAID, UNDONE, UNSENT";
 }
