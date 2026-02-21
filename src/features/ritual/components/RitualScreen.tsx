@@ -1,9 +1,11 @@
 import {
+  Keyboard,
   Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import Animated, {
@@ -55,8 +57,9 @@ export function RitualScreen({
   }));
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.screen}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={styles.safe}>
+        <View style={styles.screen}>
 
         <View style={[styles.editorCard, phase === "released" && styles.editorCardReleased]}>
           {phase !== "released" ? (
@@ -104,8 +107,9 @@ export function RitualScreen({
             <Text style={styles.tracesLink}>TRACES</Text>
           </Pressable>
         )}
-      </View>
-    </SafeAreaView>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -132,7 +136,7 @@ const styles = StyleSheet.create({
   editorCard: {
     width: "100%",
     flex: 1,
-    maxHeight: 600,
+    maxHeight: 510,
     borderRadius: tokens.radius.card,
     backgroundColor: "rgba(255, 255, 255, 0.4)",
     borderWidth: 1,

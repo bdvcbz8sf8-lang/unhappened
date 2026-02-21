@@ -27,7 +27,9 @@ export function IntroScreen({ onContinue }: IntroScreenProps) {
       <Pressable onPress={onContinue} style={styles.ctaWrap}>
         <Text style={styles.ctaLabel}>LET GO</Text>
         <View style={styles.ctaCircle}>
-          <Text style={styles.ctaArrow}>⌄</Text>
+          <View style={styles.ctaArrowWrap}>
+            <Text style={styles.ctaArrow}>⌄</Text>
+          </View>
         </View>
       </Pressable>
     </View>
@@ -115,15 +117,26 @@ const styles = StyleSheet.create({
   ctaCircle: {
     width: 52,
     height: 52,
+    position: "relative",
     borderRadius: tokens.radius.pill,
     borderWidth: 1,
     borderColor: "rgba(30, 27, 22, 0.15)",
     alignItems: "center",
     justifyContent: "center",
   },
+  ctaArrowWrap: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   ctaArrow: {
     color: "rgba(30, 27, 22, 0.65)",
     fontSize: 22,
-    marginTop: -3,
+    lineHeight: 20,
+    marginTop: -1,
   },
 });
