@@ -98,12 +98,12 @@ export function RitualScreen({
                 <Text style={styles.holdSub}>to release</Text>
               </View>
             </View>
-            <Text style={styles.holdingFooter}>LETTING GO...</Text>
+            
           </Pressable>
         )}
 
         {isTracesVisible && (
-          <Pressable onPress={onOpenTraces}>
+          <Pressable onPress={onOpenTraces} style={styles.tracesAnchor}>
             <Text style={styles.tracesLink}>TRACES</Text>
           </Pressable>
         )}
@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
   },
   editorCard: {
     width: "100%",
-    flex: 1,
-    maxHeight: 510,
+    height: 410,
+    maxHeight: 410,
     borderRadius: tokens.radius.card,
     backgroundColor: "rgba(255, 255, 255, 0.4)",
     borderWidth: 1,
@@ -198,8 +198,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     letterSpacing: 1.4,
     textTransform: "uppercase",
-    marginTop: 200,
-    marginBottom: 8,
+  },
+  tracesAnchor: {
+    position: "absolute",
+    bottom: 22,
+    alignSelf: "center",
   },
   releaseButton: {
     minWidth: 136,
@@ -222,13 +225,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 14,
-    transform: [{ translateY: 70 }]
+    transform: [{ translateY: 30 }]
   },
   holdOuter: {
     width: HOLD_SIZE,
     height: HOLD_SIZE,
     borderRadius: tokens.radius.pill,
-    borderWidth: 1.5,
+    borderWidth: 1,
     borderColor: tokens.color.accent,
     alignItems: "center",
     justifyContent: "center",

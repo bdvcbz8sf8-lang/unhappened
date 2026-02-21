@@ -1,4 +1,14 @@
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useEffect, useRef } from "react";
+import {
+  Animated,
+  Modal,
+  PanResponder,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import type { Trace } from "../../../data/storage";
 import { tokens } from "../../../theme/tokens";
 
@@ -24,13 +34,54 @@ function formatHeaderParts(iso: string): { date: string; time: string } {
 
 export function TraceDetailModal({ trace, onClose, onReturnToNow }: TraceDetailModalProps) {
   const header = trace ? formatHeaderParts(trace.createdAt) : null;
+  const translateY = useRef(new Animated.Value(0)).current;
+  const visible = Boolean(trace);
+
+  useEffect(() => {
+    if (visible) {
+      translateY.setValue(0);
+    }
+  }, [visible, translateY]);
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponderCapture: () => false,
+      onMoveShouldSetPanResponderCapture: (_, gestureState) =>
+        gestureState.dy > 2 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        gestureState.dy > 2 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
+      onPanResponderMove: (_, gestureState) => {
+        translateY.setValue(Math.max(0, gestureState.dy));
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dy > 110 || gestureState.vy > 1.1) {
+          onClose();
+        } else {
+          Animated.spring(translateY, {
+            toValue: 0,
+            useNativeDriver: true,
+            bounciness: 0,
+          }).start();
+        }
+      },
+      onPanResponderTerminate: () => {
+        Animated.spring(translateY, {
+          toValue: 0,
+          useNativeDriver: true,
+          bounciness: 0,
+        }).start();
+      },
+    }),
+  ).current;
 
   return (
-    <Modal visible={Boolean(trace)} transparent animationType="slide" onRequestClose={onClose}>
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <View style={styles.modalOverlay}>
         <Pressable style={styles.modalTapZone} onPress={onClose} />
-        <View style={styles.sheet}>
-          <View style={styles.sheetHandle} />
+        <Animated.View style={[styles.sheet, { transform: [{ translateY }] }]}>
+          <View style={styles.dragArea} {...panResponder.panHandlers}>
+            <View style={styles.sheetHandle} />
+          </View>
 
           {trace && header && (
             <>
@@ -53,7 +104,7 @@ export function TraceDetailModal({ trace, onClose, onReturnToNow }: TraceDetailM
               </Pressable>
             </>
           )}
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );
@@ -86,6 +137,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#D1D8D7",
     alignSelf: "center",
     marginBottom: 20,
+  },
+  dragArea: {
+    paddingTop: 2,
   },
   headerRow: {
     flexDirection: "row",

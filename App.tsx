@@ -8,7 +8,13 @@ import {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { createTrace, initStorage, listTraces, type Trace } from "./src/data/storage";
+import {
+  createTrace,
+  deleteTrace,
+  initStorage,
+  listTraces,
+  type Trace,
+} from "./src/data/storage";
 import { IntroScreen } from "./src/features/intro/components/IntroScreen";
 import { RitualScreen } from "./src/features/ritual/components/RitualScreen";
 import {
@@ -127,8 +133,10 @@ export default function App() {
     setSelectedTrace(trace);
   };
 
-  const returnToNow = (trace: Trace) => {
+  const returnToNow = async (trace: Trace) => {
     setInputText(trace.text);
+    await deleteTrace(trace.id);
+    await loadTraces();
     setSelectedTrace(null);
     setIsTracesOpen(false);
     setPhase("idle");

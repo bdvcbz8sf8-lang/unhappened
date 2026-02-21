@@ -81,3 +81,8 @@ export async function listTraces(): Promise<Trace[]> {
   );
   return rows;
 }
+
+export async function deleteTrace(id: string): Promise<void> {
+  const db = await getDb();
+  await db.runAsync("DELETE FROM traces WHERE id = ?", id);
+}

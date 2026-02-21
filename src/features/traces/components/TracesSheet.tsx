@@ -1,4 +1,14 @@
-import { FlatList, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { useEffect, useRef } from "react";
+import {
+  Animated,
+  FlatList,
+  Modal,
+  PanResponder,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import type { Trace } from "../../../data/storage";
 import { tokens } from "../../../theme/tokens";
 import { formatTraceTime } from "../../../utils/format";
@@ -11,12 +21,53 @@ type TracesSheetProps = {
 };
 
 export function TracesSheet({ visible, traces, onClose, onSelectTrace }: TracesSheetProps) {
+  const translateY = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (visible) {
+      translateY.setValue(0);
+    }
+  }, [visible, translateY]);
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponderCapture: () => false,
+      onMoveShouldSetPanResponderCapture: (_, gestureState) =>
+        gestureState.dy > 2 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        gestureState.dy > 2 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx),
+      onPanResponderMove: (_, gestureState) => {
+        translateY.setValue(Math.max(0, gestureState.dy));
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dy > 110 || gestureState.vy > 1.1) {
+          onClose();
+        } else {
+          Animated.spring(translateY, {
+            toValue: 0,
+            useNativeDriver: true,
+            bounciness: 0,
+          }).start();
+        }
+      },
+      onPanResponderTerminate: () => {
+        Animated.spring(translateY, {
+          toValue: 0,
+          useNativeDriver: true,
+          bounciness: 0,
+        }).start();
+      },
+    }),
+  ).current;
+
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <View style={styles.modalOverlay}>
         <Pressable style={styles.modalTapZone} onPress={onClose} />
-        <View style={styles.sheet}>
-          <View style={styles.sheetHandle} />
+        <Animated.View style={[styles.sheet, { transform: [{ translateY }] }]}>
+          <View style={styles.dragArea} {...panResponder.panHandlers}>
+            <View style={styles.sheetHandle} />
+          </View>
           <Text style={styles.sheetTitle}>TRACES</Text>
           <FlatList
             data={traces}
@@ -30,7 +81,7 @@ export function TracesSheet({ visible, traces, onClose, onSelectTrace }: TracesS
             )}
             ListEmptyComponent={<Text style={styles.empty}>No traces yet.</Text>}
           />
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );
@@ -64,6 +115,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#D1D8D7",
     alignSelf: "center",
     marginBottom: 16,
+  },
+  dragArea: {
+    paddingTop: 2,
   },
   sheetTitle: {
     color: tokens.color.textGhost,
