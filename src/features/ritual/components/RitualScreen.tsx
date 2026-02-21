@@ -1,5 +1,6 @@
 import {
   Keyboard,
+  Platform,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -56,10 +57,9 @@ export function RitualScreen({
     opacity: releasedOpacity.value,
   }));
 
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={styles.safe}>
-        <View style={styles.screen}>
+  const content = (
+    <SafeAreaView style={styles.safe}>
+      <View style={styles.screen}>
 
         <View style={[styles.editorCard, phase === "released" && styles.editorCardReleased]}>
           {phase !== "released" ? (
@@ -108,8 +108,17 @@ export function RitualScreen({
             <Text style={styles.tracesLink}>TRACES</Text>
           </Pressable>
         )}
-        </View>
-      </SafeAreaView>
+      </View>
+    </SafeAreaView>
+  );
+
+  if (Platform.OS === "web") {
+    return content;
+  }
+
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      {content}
     </TouchableWithoutFeedback>
   );
 }
