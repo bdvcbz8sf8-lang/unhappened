@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import * as Haptics from "expo-haptics";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import {
   cancelAnimation,
   runOnJS,
@@ -63,6 +63,17 @@ export default function App() {
     return () => {
       if (releaseTimerRef.current) clearTimeout(releaseTimerRef.current);
     };
+  }, []);
+
+  useEffect(() => {
+    if (Platform.OS !== "web") return;
+    if (typeof window === "undefined") return;
+    if (!("serviceWorker" in navigator)) return;
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js").catch(() => {
+        return;
+      });
+    });
   }, []);
 
   useEffect(() => {

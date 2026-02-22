@@ -84,7 +84,7 @@ export function RitualScreen({
               placeholderTextColor="rgba(138, 166, 166, 0.4)"
               value={inputText}
               onChangeText={onChangeText}
-              style={styles.input}
+              style={[styles.input, Platform.OS === "web" ? styles.inputWeb : null]}
               textAlignVertical="top"
               textAlign="center"
               
@@ -205,6 +205,11 @@ const styles = StyleSheet.create({
     lineHeight: 34,
     fontStyle: "italic",
     fontWeight: "300",
+  },
+  inputWeb: {
+    outlineStyle: "none",
+    outlineWidth: 0,
+    boxShadow: "none",
   },
   releasedWrap: {
     alignItems: "center",
