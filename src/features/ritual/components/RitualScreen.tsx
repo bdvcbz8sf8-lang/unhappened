@@ -1,6 +1,7 @@
 import {
   Keyboard,
   Platform,
+  type GestureResponderEvent,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -57,6 +58,20 @@ export function RitualScreen({
     opacity: releasedOpacity.value,
   }));
 
+  const handleHoldPressIn = (event: GestureResponderEvent) => {
+    if (Platform.OS === "web") {
+      (event as unknown as { preventDefault?: () => void }).preventDefault?.();
+    }
+    onHoldStart();
+  };
+
+  const handleHoldPressOut = (event: GestureResponderEvent) => {
+    if (Platform.OS === "web") {
+      (event as unknown as { preventDefault?: () => void }).preventDefault?.();
+    }
+    onHoldEnd();
+  };
+
   const content = (
     <SafeAreaView style={styles.safe}>
       <View style={styles.screen}>
@@ -91,12 +106,30 @@ export function RitualScreen({
         )}
 
         {isHoldVisible && (
-          <Pressable onPressIn={onHoldStart} onPressOut={onHoldEnd} style={styles.holdWrap}>
+          <Pressable
+            nativeID="hold-to-release"
+            onPressIn={handleHoldPressIn}
+            onPressOut={handleHoldPressOut}
+            onLongPress={() => {
+              return;
+            }}
+            onContextMenu={
+              Platform.OS === "web"
+                ? (event: GestureResponderEvent) =>
+                    (event as unknown as { preventDefault?: () => void }).preventDefault?.()
+                : undefined
+            }
+            style={[styles.holdWrap, Platform.OS === "web" ? styles.holdWrapWeb : null]}
+          >
             <View style={styles.holdOuter}>
               <Animated.View style={[styles.holdProgress, progressStyle]} />
               <View style={styles.holdInner}>
-                <Text style={styles.holdLabel}>HOLD</Text>
-                <Text style={styles.holdSub}>to release</Text>
+                <Text selectable={false} style={styles.holdLabel}>
+                  HOLD
+                </Text>
+                <Text selectable={false} style={styles.holdSub}>
+                  to release
+                </Text>
               </View>
             </View>
             
@@ -235,7 +268,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 14,
-    transform: [{ translateY: 30 }]
+    transform: [{ translateY: 30 }],
+  },
+  holdWrapWeb: {
+    userSelect: "none",
   },
   holdOuter: {
     width: HOLD_SIZE,
